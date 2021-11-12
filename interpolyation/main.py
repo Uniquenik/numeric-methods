@@ -71,9 +71,9 @@ def lagrange_interpolation(x, y, xx, n):
 
 
 start = 2
-dots = 10
-diff_bt_alldots = 0.1
-new_dots = 5
+dots = 20
+diff_bt_alldots = 0.5
+new_dots = 1
 stop = start + ((dots - 1) * new_dots * diff_bt_alldots + dots * diff_bt_alldots)
 x2 = np.arange(start, stop, diff_bt_alldots)
 x1 = x2[::new_dots + 1]
@@ -81,9 +81,8 @@ y11 = []
 for i in x2:
     # y11.append(math.log(i) ** 0.5)
     # y11.append(math.exp(i)/math.log(i))
-    y11.append(math.sin(2*i) + i)
-    # y11.append(math.ceil(math.sin(i)) % 2)
-
+    # y11.append(math.sin(2*i))
+    y11.append(math.sin(i)% 2)
 y1 = y11[::new_dots + 1]
 y2, y3, y4 = [], [], []
 
@@ -104,10 +103,10 @@ plt.grid()
 print(x1, y1)
 print(x2, y2)
 print("Inaccuracy Lagrange: ", np.linalg.norm(np.array(y2) - np.array(y11)))
-print("Inaccuracy Spline: ", np.linalg.norm(np.array(y3) - np.array(y11)))
+print("Inaccuracy Spline: ", np.linalg.norm(np.array(y2) - np.array(y11)))
 plt.plot(x1, y1, c="black", label="Интерполируемая функция")
 plt.plot(x2, y2, 'k--', c="green", label="Лагранж")
-plt.plot(x2, y3, 'k--', c="orange", label="Сплайны")
+plt.plot(x2, y3, 'k--', c="orange", label="Кубические сплайны")
 plt.plot(x2, y11,  c="blue", label="Исходная")
 plt.legend(loc='upper left', frameon=False)
 # , x2, y3, x2, y4
