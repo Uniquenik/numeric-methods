@@ -8,18 +8,19 @@ def cubic_interp1d(x0, x, y):
 
     size = len(x)
 
+    # получаем массив, где вместо элементов - разница относительно предыдущего
     xdiff = np.diff(x)
     ydiff = np.diff(y)
 
-    # allocate buffer matrices
+    # cоздание буферных матриц
     Li = np.empty(size)
     Li_1 = np.empty(size-1)
     z = np.empty(size)
 
-    # fill diagonals Li and Li-1 and solve [L][y] = [B]
+    # заполняем диагонально Li и Li-1 и решаем уравнение [L][y] = [B]
     Li[0] = math.sqrt(2*xdiff[0])
     Li_1[0] = 0.0
-    B0 = 0.0 # natural boundary
+    B0 = 0.0
     z[0] = B0 / Li[0]
 
     for i in range(1, size-1, 1):
@@ -31,16 +32,15 @@ def cubic_interp1d(x0, x, y):
     i = size - 1
     Li_1[i-1] = xdiff[-1] / Li[i-1]
     Li[i] = math.sqrt(2*xdiff[-1] - Li_1[i-1] * Li_1[i-1])
-    Bi = 0.0 # natural boundary
+    Bi = 0.0
     z[i] = (Bi - Li_1[i-1]*z[i-1])/Li[i]
 
-    # solve [L.T][x] = [y]
+    # решаем уравнение [L.T][x] = [y]
     i = size-1
     z[i] = z[i] / Li[i]
     for i in range(size-2, -1, -1):
         z[i] = (z[i] - Li_1[i-1]*z[i+1])/Li[i]
 
-    # find index
     index = x.searchsorted(x0)
     # np.clip(index, 1, size-1, index)
 
@@ -49,7 +49,7 @@ def cubic_interp1d(x0, x, y):
     zi1, zi0 = z[index], z[index-1]
     hi1 = xi1 - xi0
 
-    # calculate cubic
+    # рассчет для конкретной точки
     f0 = zi0/(6*hi1)*(xi1-x0)**3 + \
          zi1/(6*hi1)*(x0-xi0)**3 + \
          (yi1/hi1 - zi1*hi1/6)*(x0-xi0) + \
@@ -71,15 +71,19 @@ def lagrange_interpolation(x, y, xx, n):
 
 
 start = 2
-dots = 7
-diff_bt_alldots = 0.5
-new_dots = 10
+dots = 10
+diff_bt_alldots = 0.1
+new_dots = 5
 stop = start + ((dots - 1) * new_dots * diff_bt_alldots + dots * diff_bt_alldots)
 x2 = np.arange(start, stop, diff_bt_alldots)
 x1 = x2[::new_dots + 1]
 y11 = []
 for i in x2:
-    y11.append(math.log(i) ** 0.5)
+    # y11.append(math.log(i) ** 0.5)
+    # y11.append(math.exp(i)/math.log(i))
+    y11.append(math.sin(2*i) + i)
+    # y11.append(math.ceil(math.sin(i)) % 2)
+
 y1 = y11[::new_dots + 1]
 y2, y3, y4 = [], [], []
 
