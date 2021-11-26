@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-
+# рунге-кут 4 порядка
 def func(x):
-    return math.cos(x)
+    # return math.cos(x)
     # return -x * x
-    # return 1/(1+(x*x))
+    return 1/(1+(x*x))
 
 
 # middle quads
@@ -49,12 +49,13 @@ def simpson(f, a, b, n):
     return (h/3)*(f(a)+f(b)+k)
 
 
-a = -1
-b = 7
+a = 0
+b = 2
 e = 1e-5
 # automatic find optimal n
 funcArray = [riemann_sum, trap, simpson]
 nameArray = ["quad", "trapezoidal", "simpson"]
+resultArray = []
 nArray = 0
 
 for f in funcArray:
@@ -67,8 +68,11 @@ for f in funcArray:
         resCurr = f(func, a, b, n)
     print("For", nameArray[nArray], "rule:")
     print("n =", n, ", result:", resCurr)
+    resultArray.append(resCurr)
     nArray += 1
 
+print("Diff quad and trapezoidal", abs(resultArray[1]- resultArray[0]))
+print("Diff Simpson and trapezoidal", abs(resultArray[2]- resultArray[1]))
 x = np.arange(a, b, abs((b-a)/n))
 x = np.append(x, b)
 y = []
