@@ -10,7 +10,7 @@ e = 1e-10
 def func(arg):
     # for more nulls
     # return math.sin(arg)
-    return math.cos(arg)
+    return (arg-1)*(arg-2)*(arg-3)
 
 
 # for one point
@@ -44,7 +44,7 @@ def secant(f, x0, x1, tol=e, max_iterations=100):
     return x1
 
 
-# for more points
+# for more points (some problem, do not use in this form)
 def divide_method(a, b, f, it):
     x = (a + b) / 2
     if math.fabs(f(x)) >= e:
@@ -55,8 +55,8 @@ def divide_method(a, b, f, it):
         print("0 in ", x, it)
 
 
-start = 5.0  # start x
-end = 8.0  # end x (for more points type 25)
+start = -1.0  # start x
+end = 4.0  # end x (for more points type 25)
 step = 0.1
 x = numpy.arange(start, end, step)
 y = []
@@ -69,6 +69,7 @@ print("")
 e = 1e-5  # change epsilon, because calculations so long...
 divide_method(start, end, func,0)
 plt.plot(x, y, c="black")
+plt.plot(x, numpy.zeros(len(x)))
 plt.show()
 
 
