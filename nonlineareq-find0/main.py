@@ -10,7 +10,9 @@ e = 1e-10
 def func(arg):
     # for more nulls
     # return math.sin(arg)
-    return (arg-1)*(arg-2)*(arg-3)
+    # return (arg-1)*(arg-2)*(arg-3)
+    # return math.log(arg) #0.5-4
+    return math.exp(arg) + arg
 
 
 # for one point
@@ -55,7 +57,7 @@ def divide_method(a, b, f, it):
         print("0 in ", x, it)
 
 
-start = -1.0  # start x
+start = -2.0  # start x
 end = 4.0  # end x (for more points type 25)
 step = 0.1
 x = numpy.arange(start, end, step)

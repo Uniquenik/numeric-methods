@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 
 
 def func(x, y):
-    # return x*x + math.cos(y)
+    return math.sin(x)
+    # return x
+    # return math.cos(x) + math.sin(y)
     # return y*y - x  # (?)
+    # return x*x + math.cos(y)
     # return math.log(x) - y
-    return math.cos(x) + math.sin(y)
 
 
 def runge_kutta(f, y0, x0, N, x_end):
@@ -28,8 +30,8 @@ def runge_kutta(f, y0, x0, N, x_end):
     return x, y
 
 
-e = 1e-5
-y0 = 0.0
+e = 1e-10
+y0 = 1.0
 x0 = 1.0
 x1 = 6.0
 plt.grid()
@@ -52,7 +54,8 @@ while np.linalg.norm(diff[::2] - diff2) > e:
     plt.plot(currentRes[0], currentRes[1], c=np.random.rand(3,), label=h)
     diff = currentRes[1]
     diff2 = prevRes[1]
-
+print()
+print("Last:", currentRes[1][-1])
 plt.legend(loc='upper left', frameon=False)
 plt.show()
 
